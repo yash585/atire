@@ -6,273 +6,212 @@
 <title>Atire — Coming Soon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0E0E0F;
-    --paper:#F3F1EA;
-    --line: rgba(243,241,234,0.16);
-    --line-strong: rgba(243,241,234,0.42);
-    --khaki:#B9AD8C;
+    --ink:#111111;
+    --paper:#ffffff;
+    --gold:#b9a06a;
+    --gray:#8a8a8a;
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html,body{height:100%;}
-  body{
-    background:var(--ink);
-    color:var(--paper);
-    font-family:'Space Grotesk', sans-serif;
-    overflow-x:hidden;
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{
+    height:100%;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Jost', sans-serif;
     -webkit-font-smoothing:antialiased;
   }
 
-  /* subtle grain, ties the flat black to fabric/paper without adding clutter */
-  .grain{
-    position:fixed; inset:0; pointer-events:none; z-index:5;
-    opacity:.05; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  .frame{
-    position:relative;
-    min-height:100vh;
-    padding:5vh 5vw;
+  body{
     display:flex;
     flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:6vh 6vw;
+    text-align:center;
+    position:relative;
+    overflow-x:hidden;
   }
 
-  /* pattern-paper grid: faint dashed lines referencing garment cutting paper */
-  .grid-line{
-    position:absolute;
-    background:var(--line);
-  }
-  .grid-line.h{ left:0; right:0; height:1px; }
-  .grid-line.v{ top:0; bottom:0; width:1px; }
-
-  /* notches like tailor's pattern marks */
-  .notch{
-    position:absolute;
-    width:9px; height:9px;
-    border-left:1px solid var(--line-strong);
-    border-bottom:1px solid var(--line-strong);
-    opacity:0;
-    animation:fade-in .6s ease forwards;
-  }
-
-  header{
+  /* corner marks — quiet structural device, echoes a garment tag/label */
+  .mark{
+    position:fixed;
     display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
+    flex-direction:column;
+    gap:6px;
+    font-family:'Jost', sans-serif;
     font-size:11px;
-    letter-spacing:.22em;
+    letter-spacing:0.16em;
+    color:var(--gray);
     text-transform:uppercase;
-    color:var(--khaki);
-    opacity:0;
-    animation:fade-in .8s ease forwards .2s;
+    line-height:1.5;
   }
-  header .r{ text-align:right; }
-  header .r span{ display:block; }
-  header .r span:first-child{ color:var(--paper); }
+  .mark.tl{ top:5vh; left:6vw; }
+  .mark.tr{ top:5vh; right:6vw; text-align:right; align-items:flex-end; }
+  .mark.bl{ bottom:5vh; left:6vw; }
+  .mark.br{ bottom:5vh; right:6vw; text-align:right; align-items:flex-end; }
 
-  main{
-    flex:1;
+  .mark.brandmark{
+    font-family:'Bodoni Moda', serif;
+    font-size:14px;
+    letter-spacing:0.1em;
+    color:var(--ink);
+  }
+
+  .mark a{
+    color:var(--gray);
+    text-decoration:none;
+    border-bottom:1px solid rgba(138,138,138,0.4);
+    padding-bottom:1px;
+    transition:color 0.25s ease, border-color 0.25s ease;
+  }
+  .mark a:hover{
+    color:var(--ink);
+    border-color:var(--gold);
+  }
+
+  @media (max-width:640px){
+    .mark{ font-size:9.5px; letter-spacing:0.12em; }
+    .mark.tl{ top:3vh; left:5vw; }
+    .mark.tr{ top:3vh; right:5vw; }
+    .mark.bl{ bottom:3vh; left:5vw; }
+    .mark.br{ bottom:3vh; right:5vw; }
+    .mark.brandmark{ font-size:12px; }
+  }
+
+  .wordmark-wrap{
+    position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
-    position:relative;
+    width:100%;
+    max-width:900px;
+  }
+
+  .rule{
+    flex:1;
+    height:0;
+    border-top:3px dashed rgba(17,17,17,0.55);
   }
 
   .wordmark{
     font-family:'Bodoni Moda', serif;
-    font-weight:800;
-    font-size:clamp(4.5rem, 18vw, 15rem);
-    letter-spacing:-.01em;
-    line-height:.82;
-    text-align:center;
+    font-optical-sizing:auto;
+    font-weight:400;
+    font-size:clamp(4.2rem, 17vw, 11rem);
+    letter-spacing:0.02em;
+    line-height:1;
+    color:var(--ink);
+    padding:0 clamp(0.6rem, 3vw, 2.2rem);
     white-space:nowrap;
-    opacity:0;
-    transform:translateY(24px);
-    animation:rise 1.1s cubic-bezier(.2,.7,.2,1) forwards .35s;
   }
-  .wordmark em{
+
+  .eyebrow{
+    font-size:clamp(0.62rem, 1.1vw, 0.72rem);
+    letter-spacing:0.5em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:clamp(1.2rem, 3vh, 1.8rem);
+    font-weight:400;
+  }
+
+  .wordmark .i{
     font-style:italic;
     font-weight:400;
   }
 
-  .seam{
-    position:absolute;
-    top:50%;
-    left:0;
-    width:0;
-    height:1px;
-    background:repeating-linear-gradient(90deg, var(--khaki) 0 6px, transparent 6px 12px);
-    animation:draw 1.4s ease forwards 1.2s;
-  }
-  @keyframes draw{ to{ width:100%; } }
-
-  footer{
-    display:flex;
-    flex-direction:column;
-    gap:36px;
-    opacity:0;
-    animation:fade-in .9s ease forwards 1.6s;
-  }
-
-  .foot-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap:wrap;
-    gap:24px;
-  }
-
   .tagline{
-    max-width:360px;
-    font-size:14px;
-    line-height:1.75;
-    letter-spacing:.01em;
-    color:#C9C6BC;
-  }
-  .tagline strong{
-    font-family:'Bodoni Moda', serif;
-    font-style:italic;
-    font-weight:500;
-    color:var(--paper);
+    margin-top:clamp(1.6rem, 4vh, 2.6rem);
+    font-size:clamp(0.7rem, 1.4vw, 0.82rem);
+    letter-spacing:0.42em;
+    text-transform:uppercase;
+    color:var(--ink);
+    font-weight:400;
   }
 
-  form{
+  .divider-double{
     display:flex;
     align-items:center;
-    gap:0;
-    border-bottom:1px solid var(--line-strong);
-    padding-bottom:10px;
-    width:min(300px, 60vw);
+    justify-content:center;
+    gap:10px;
+    margin:clamp(1.8rem, 4.5vh, 2.6rem) 0;
   }
-  input[type="email"]{
-    flex:1;
-    border:none;
-    background:none;
-    outline:none;
-    font-family:'Space Grotesk', sans-serif;
-    font-size:13px;
-    letter-spacing:.02em;
-    color:var(--paper);
-    padding:4px 0;
+  .divider-double span:not(.diamond){
+    width:46px;
+    height:1px;
+    background:rgba(17,17,17,0.3);
   }
-  input[type="email"]::placeholder{ color:#7A776C; }
-
-  button{
-    border:none;
-    background:none;
-    font-family:'Space Grotesk', sans-serif;
-    font-size:10px;
-    letter-spacing:.24em;
-    text-transform:uppercase;
-    color:var(--khaki);
-    cursor:pointer;
-    padding:4px 0 4px 14px;
-    white-space:nowrap;
-    transition:opacity .25s ease;
-  }
-  button:hover{ opacity:.6; }
-  button:focus-visible, input:focus-visible{
-    outline:1px solid var(--khaki);
-    outline-offset:4px;
+  .divider-double .diamond{
+    width:6px;
+    height:6px;
+    background:var(--gold);
+    transform:rotate(45deg);
   }
 
   .note{
-    margin-top:8px;
-    font-size:11px;
-    letter-spacing:.08em;
-    color:var(--khaki);
-    height:14px;
+    max-width:480px;
+    font-size:clamp(0.88rem, 1.6vw, 1rem);
+    line-height:1.8;
+    color:#4a4a4a;
+    font-weight:300;
   }
 
-  .foot-bottom{
-    display:flex;
-    justify-content:space-between;
-    font-size:10px;
-    letter-spacing:.2em;
-    text-transform:uppercase;
-    color:#6E6B60;
-    border-top:1px solid var(--line);
-    padding-top:18px;
+  @media (prefers-reduced-motion: no-preference){
+    .eyebrow, .wordmark-wrap, .tagline, .divider-double, .note{
+      animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .eyebrow{ animation-delay:0s; }
+    .wordmark-wrap{ animation-delay:0.1s; }
+    .tagline{ animation-delay:0.3s; }
+    .divider-double{ animation-delay:0.4s; }
+    .note{ animation-delay:0.5s; }
+
+    @keyframes rise{
+      from{ opacity:0; transform:translateY(14px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
   }
 
-  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
-  @keyframes fade-in{ to{ opacity:1; } }
-
-  @media (max-width: 640px){
-    .frame{ padding:4vh 6vw; }
-    .foot-top{ flex-direction:column; align-items:flex-start; }
-    header{ font-size:9.5px; }
-    .foot-bottom{ flex-direction:column; gap:6px; }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{ animation:none !important; opacity:1 !important; transform:none !important; }
-    .seam{ width:100%; }
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
   }
 </style>
 </head>
 <body>
 
-<div class="grain" aria-hidden="true"></div>
+  <div class="mark tl brandmark">Atire</div>
 
-<div class="frame">
+  <div class="mark tr">
+    <span>Est. 2026</span>
+    <span>Maharashtra, IN</span>
+  </div>
 
-  <div class="grid-line h" style="top:14vh;"></div>
-  <div class="grid-line h" style="bottom:14vh;"></div>
-  <div class="notch" style="top:14vh; left:5vw; animation-delay:.9s;"></div>
-  <div class="notch" style="bottom:14vh; right:5vw; transform:rotate(180deg); animation-delay:1.05s;"></div>
+  <div class="mark bl">
+    <a href="https://atire.shop">atire.shop</a>
+  </div>
 
-  <header>
-    <div class="l">ATIRE.SHOP</div>
-    <div class="r">
-      <span>°01 — SS26</span>
-      <span>Cutting the first collection</span>
-    </div>
-  </header>
+  <p class="eyebrow">Introducing</p>
 
-  <main>
-    <div class="seam" aria-hidden="true"></div>
-    <h1 class="wordmark">AT<em>i</em>RE</h1>
-  </main>
+  <div class="wordmark-wrap">
+    <span class="rule"></span>
+    <h1 class="wordmark">AT<span class="i">i</span>RE</h1>
+    <span class="rule"></span>
+  </div>
 
-  <footer>
-    <div class="foot-top">
-      <p class="tagline">A clothing label under construction. <strong>Every piece measured twice, cut once.</strong> First drop lands soon.</p>
+  <p class="tagline">Coming Soon</p>
 
-      <div>
-        <form id="notify-form">
-          <label for="email" style="position:absolute; width:1px; height:1px; overflow:hidden;">Email address</label>
-          <input type="email" id="email" placeholder="Your email" required autocomplete="email">
-          <button type="submit">Notify Me</button>
-        </form>
-        <p class="note" id="note"></p>
-      </div>
-    </div>
+  <div class="divider-double" aria-hidden="true">
+    <span></span>
+    <span class="diamond"></span>
+    <span></span>
+  </div>
 
-    <div class="foot-bottom">
-      <span>Coming Soon</span>
-      <span>Atire.Shop</span>
-    </div>
-  </footer>
-
-</div>
-
-<script>
-  const form = document.getElementById('notify-form');
-  const note = document.getElementById('note');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    const input = form.querySelector('input');
-    if(input.value.trim()){
-      note.textContent = "You're on the list.";
-      input.value = '';
-    }
-  });
-</script>
+  <p class="note">A clothing label under construction. Every piece measured twice, cut once. First drop lands soon.</p>
 
 </body>
 </html>
-
